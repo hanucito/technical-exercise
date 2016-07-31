@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script><!-- Data Renderization  -->
+        <script src="raphael.min.js"></script><!-- Graphics Renderization -->
+        <link rel="stylesheet" type="text/css" href="theme.css" />
+        <title>iamat exercise (AngularJS)</title>
+    </head>
+    <body class="ng">
+    	<app ng-controller="bodyCtrl">
+	    	<header>"{{question}}"</header>
+	    	<div class="answers">
+				<span ng-repeat="answer in answers"><span class="answer" style="color: {{answer.color}}">{{answer.caption}}</span>-"{{answer.text}}"</span>
+	    	</div>
+	    	<content>
+		    	<div class="table">
+			    	<table class="results">
+			    		<thead>
+			    			<tr>    				
+			    				<th colspan="2">Team</th>
+			    				<th ng-repeat="answer in answers"><span class="answer" style="color: {{answer.color}}">{{answer.caption}}</span></th>
+			    				<th>Total</th>
+				    		</tr>
+			    		</thead>
+			    		<tbody>
+			    			<tr
+			    				ng-class="['result', isResultSelected(result) ? 'selected' : '']"
+			    				ng-click="selectResult(result)"
+			    				ng-repeat="result in results | orderBy: 'team.name'">
+			    				<td></td>
+			    				<td>{{result.team.name}}</td>
+			    				<td ng-repeat="value in result.answers track by $index">{{ value / result.total | percentage }}</td>
+			    				<td>{{result.total}}</td>
+				    		</tr>
+			    		</tbody>
+			    		<tfoot>
+			    			<tr>
+			    				<td colspan="2">Todo</td>
+			    				<td ng-repeat="answer in answers track by $index">{{ answer.count }}</td>
+			    				<td>{{total.count}}</td>
+				    		</tr>    		
+			    		</tfoot>
+			    	</table>
+
+		    	</div>
+		    	<div class="graphics">
+			    	<div class="graphic" ng-repeat="result in selection">
+			    		<header ng-click="selectResult(result)">{{result.team.name}}</header>
+			    		<content graphic-pie result="result" answers="answers">
+
+			    		</content>
+			    	</div>
+			    	
+		    	</div>
+	    	</content>
+    	</app>
+    </body>
+</html>
+
+<script src="shared.js"></script>
+<script src="ng.js"></script>
